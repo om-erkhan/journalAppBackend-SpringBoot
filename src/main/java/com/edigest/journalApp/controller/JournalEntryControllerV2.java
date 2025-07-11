@@ -67,7 +67,7 @@ public class JournalEntryControllerV2 {
 
 
     @PutMapping("id/{userName}/{id}")
-    public ResponseEntity<?> updateJournalByID(
+    public ResponseEntity<?> updateJournalByID( 
             @PathVariable ObjectId id,
             @RequestBody JournalEntry newEntry,
             @PathVariable String userName)
