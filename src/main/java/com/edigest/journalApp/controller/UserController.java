@@ -21,18 +21,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping
-    public List<User> getAllUsers(){
-        return userService.getAll();
-    }
 
-    @PostMapping
-    public void createUser(@RequestBody User user){
-        userService.saveEntry(user);
-    }
-
-    @PutMapping("/{userName}")
-    public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable String userName){
+    @PutMapping("")
+    public ResponseEntity<?> updateUser(@RequestBody User user){
        User    userInDB =     userService.findByUserName(userName );
 
        if(userInDB != null){
