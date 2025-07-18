@@ -101,13 +101,17 @@ public class JournalEntryControllerV2 {
         User user = userService.findByUserName(userName);
         List<JournalEntry> collect = user.getJournalEntries().stream().filter(x -> x.getId().equals(myId)).collect(Collectors.toList());
 
-        JournalEntry oldEntry = journalEntryService.findByID(myId).orElse(null);
-        if(oldEntry != null){
-            oldEntry.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("")? newEntry.getTitle(): oldEntry.getTitle());
-            oldEntry.setContent(newEntry.getContent()  != null && !newEntry.getContent().equals("")? newEntry.getContent(): oldEntry.getContent());
-            journalEntryService.saveEntry(oldEntry);
-            return new ResponseEntity<>(oldEntry, HttpStatus.OK);
+        if(!collect.isEmpty()){
+            Optional<JournalEntry> journalEntry = journalEntryService.findByID(myId);
+            if(journalEntry.isPresent()){
+                JournalEntry oldEntry = journalEntry.get();
+                oldEntry.setTitle(newEntry.getTitle() != null && !newEntry.getTitle().equals("")? newEntry.getTitle(): oldEntry.getTitle());
+                oldEntry.setContent(newEntry.getContent()  != null && !newEntry.getContent().equals("")? newEntry.getContent(): oldEntry.getContent());
+                journalEntryService.saveEntry(oldEntry);
+                return new ResponseEntity<>(oldEntry, HttpStatus.OK);
             }
+        }
+
         return new ResponseEntity<>(  HttpStatus.NOT_FOUND );
 
     }

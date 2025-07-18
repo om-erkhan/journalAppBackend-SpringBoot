@@ -32,9 +32,11 @@ public class SpringSecurity {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/user/**","/public/**").permitAll()
+                        .requestMatchers("/admin/**").permitAll()
                         .requestMatchers("/journal/**","/user/**" ).authenticated()
-                        .requestMatchers("/admin/**").hasRole("ADMIN")
-                        .anyRequest().authenticated())
+//                        .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .anyRequest().permitAll()
+                )
                 .httpBasic(Customizer.withDefaults())
                 .build();
 //           http.csrf().disable();
